@@ -1,4 +1,6 @@
-package service;
+package service.impl;
+
+import service.MailService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,12 +36,11 @@ public class MailServiceImpl implements MailService {
     }
 
     private Session configureSession() {
-        return Session.getInstance(configureProperties(),
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(SENDER_EMAIL, SENDER_PASSWORD);
-                    }
-                });
+        return Session.getInstance(configureProperties(), new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(SENDER_EMAIL, SENDER_PASSWORD);
+            }
+        });
     }
 
     @Override
