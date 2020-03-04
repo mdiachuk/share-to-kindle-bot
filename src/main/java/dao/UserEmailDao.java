@@ -14,7 +14,7 @@ public class UserEmailDao {
         connectionFactory = new ConnectionFactory();
     }
 
-    public Optional<UserEmail> getUserEmail(int chat_id) {
+    public Optional<UserEmail> getUserEmail(long chat_id) {
         try (Connection connection = connectionFactory.getConnection()) {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user_email WHERE chat_id=" + chat_id);
