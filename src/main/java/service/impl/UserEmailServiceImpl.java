@@ -4,6 +4,8 @@ import dao.UserEmailDao;
 import entity.UserEmail;
 import service.UserEmailService;
 
+import java.util.Optional;
+
 public class UserEmailServiceImpl implements UserEmailService {
 
     private final UserEmailDao userEmailDao;
@@ -13,33 +15,18 @@ public class UserEmailServiceImpl implements UserEmailService {
     }
 
     @Override
-    public boolean userEmailExists(long chatId) {
-        return userEmailDao.get(chatId).isPresent();
+    public Optional<String> getEmail(long chatId) {
+        return userEmailDao.get(chatId).map(UserEmail::getEmail);
     }
 
     @Override
-    public String getEmail(long chatId) {
-        return userEmailDao.get(chatId).map(UserEmail::getEmail).get();
-    }
-
-    @Override
-    public String getEmailInfo(long chatId) {
+    public boolean setEmail(long chatId, String email) {
         return userEmailDao.get(chatId)
-                .map(userEmail -> String.format("Current email address of your Kindle — `%s`", userEmail.getEmail()))
-                .orElse("Sorry... I forgot your email address. Try to set it one more time");
-    }
-
-    @Override
-    public String setEmail(long chatId, String email) {
-        boolean isSet = userEmailDao
-                .get(chatId)
                 .map(userEmail -> {
                     userEmail.setEmail(email);
                     return userEmailDao.update(userEmail);
                 })
                 .orElseGet(() -> userEmailDao.insert(new UserEmail(chatId, email)));
-        return isSet ? "Email was successfully changed" :
-                "An error occurred while saving email";
     }
 
 }

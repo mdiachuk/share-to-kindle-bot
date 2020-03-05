@@ -44,7 +44,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public String sendFile(String to, String fileName, String mimeType, InputStream fileStream) {
+    public boolean sendFile(String to, String fileName, String mimeType, InputStream fileStream) {
         try {
             Message message = new MimeMessage(configureSession());
             message.setFrom(new InternetAddress(SENDER_EMAIL));
@@ -62,9 +62,10 @@ public class MailServiceImpl implements MailService {
 
             message.setContent(multipart);
             Transport.send(message);
+            return true;
         } catch (MessagingException | IOException e) {
-            return "An error occurred while sending file.";
+            e.printStackTrace();
         }
-        return "File was sent to your Kindle!";
+        return false;
     }
 }

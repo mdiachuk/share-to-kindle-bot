@@ -19,7 +19,7 @@ public class UserEmailDao {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user_email WHERE chat_id=" + chat_id);
             UserEmail userEmail = null;
-            if(rs.next()) {
+            if (rs.next()) {
                 userEmail = new UserEmail();
                 userEmail.setChatId(rs.getLong("chat_id"));
                 userEmail.setEmail(rs.getString("email"));
@@ -37,7 +37,7 @@ public class UserEmailDao {
             ps.setLong(1, userEmail.getChatId());
             ps.setString(2, userEmail.getEmail());
             int i = ps.executeUpdate();
-            if(i == 1) {
+            if (i == 1) {
                 return true;
             }
         } catch (SQLException ex) {
@@ -47,13 +47,13 @@ public class UserEmailDao {
     }
 
     public boolean update(UserEmail userEmail) {
-        try(Connection connection = connectionFactory.getConnection()) {
+        try (Connection connection = connectionFactory.getConnection()) {
             PreparedStatement ps = connection.prepareStatement("UPDATE user_email" +
                     " SET email=? WHERE chat_id=?");
             ps.setString(1, userEmail.getEmail());
             ps.setLong(2, userEmail.getChatId());
             int i = ps.executeUpdate();
-            if(i == 1) {
+            if (i == 1) {
                 return true;
             }
         } catch (SQLException ex) {

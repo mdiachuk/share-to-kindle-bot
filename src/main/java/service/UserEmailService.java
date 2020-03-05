@@ -1,9 +1,9 @@
 package service;
 
+import java.util.Optional;
+
 public interface UserEmailService {
 
-    boolean userEmailExists(long chatId);
-    String getEmail(long chatId);
-    String getEmailInfo(long chatId);
-    String setEmail(long chatId, String email);
+    Optional<String> getEmail(long chatId);
+    boolean setEmail(long chatId, String email);
 }

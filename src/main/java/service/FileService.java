@@ -1,8 +1,9 @@
 package service;
 
 import java.io.InputStream;
+import java.util.Optional;
 
 public interface FileService {
 
-    InputStream convertTelegramDocumentToInputStream(String filePath);
+    Optional<InputStream> convertTelegramDocumentToInputStream(String filePath);
 }
