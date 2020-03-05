@@ -85,7 +85,7 @@ public class Bot extends AbilityBot {
         long chatId = ctx.chatId();
         userEmailService.getEmail(chatId).ifPresent(email ->
                 silent.sendMd(String.format("\uD83D\uDCE7 Current email address " +
-                        "of your Kindle — `%s`", email), chatId));
+                        "of your Kindle is `%s`", email), chatId));
         silent.forceReply(message, chatId);
     }
 

@@ -1,23 +1,29 @@
 package util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private final static String JDBC_DATABASE_URL;
-    private final static String JDBC_DATABASE_USERNAME;
-    private final static String JDBC_DATABASE_PASSWORD;
+    private final static String DATABASE_URL;
 
     static {
-        JDBC_DATABASE_URL = System.getenv("JDBC_DATABASE_URL");
-        JDBC_DATABASE_USERNAME = System.getenv("JDBC_DATABASE_USERNAME");
-        JDBC_DATABASE_PASSWORD = System.getenv("JDBC_DATABASE_PASSWORD");
+        DATABASE_URL = System.getenv("DATABASE_URL");
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(JDBC_DATABASE_URL, JDBC_DATABASE_USERNAME,
-                JDBC_DATABASE_PASSWORD);
+        try {
+            URI dbUri = new URI(System.getenv("DATABASE_URL"));
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+            return DriverManager.getConnection(dbUrl, username, password);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            throw new SQLException();
+        }
     }
 }
