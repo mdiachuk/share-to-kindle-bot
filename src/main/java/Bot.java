@@ -54,7 +54,7 @@ public class Bot extends AbilityBot {
 
     public Ability startCommand() {
         String message = "Hi! To configure me, follow steps below:\n\n" +
-                "1. Add my email address `sendtokindlebot@gmail.com` to your [approved email list]" +
+                "1. Add my email address `sharetokindlebot@gmail.com` to your [approved email list]" +
                 "(https://www.amazon.com/gp/help/customer/display.html?nodeId=201974240)\n" +
                 "2. Set your Kindle email address using /email command\n\n" +
                 "Supported formats: _doc_, _docx_, _pdf_, _txt_, _jpg_, _jpeg_, _png_, _bmp_," +
@@ -92,7 +92,7 @@ public class Bot extends AbilityBot {
     private void setEmail(Update upd) {
         long chatId = upd.getMessage().getChatId();
         String reply = userEmailService.setEmail(chatId, upd.getMessage().getText()) ?
-                "\u2705 Email was successfully changed" : ERROR_MESSAGE;
+                "\u2705 Email was successfully updated" : ERROR_MESSAGE;
         silent.send(reply, chatId);
     }
 
