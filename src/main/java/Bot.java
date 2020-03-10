@@ -21,6 +21,7 @@ import service.impl.FileServiceImpl;
 import service.MailService;
 import service.impl.MailServiceImpl;
 import service.impl.UserEmailServiceImpl;
+import util.MimeTypesUtil;
 
 public class Bot extends AbilityBot {
 
@@ -105,6 +106,9 @@ public class Bot extends AbilityBot {
         String message = userEmailService.getEmail(chatId).map(email -> {
             silent.send("\u2699 Processing file...", chatId);
             Document document = update.getMessage().getDocument();
+            if (!MimeTypesUtil.supportsMimeType(document.getMimeType())) {
+                return "Sorry, I can't send this format of file \uD83E\uDD7A";
+            }
             String fileName = document.getFileName();
             return fileService.convertTelegramDocumentToInputStream(getTelegramFilePath(document))
                     .map(fileStream -> {
