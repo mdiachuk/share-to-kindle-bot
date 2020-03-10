@@ -21,6 +21,7 @@ import service.impl.FileServiceImpl;
 import service.MailService;
 import service.impl.MailServiceImpl;
 import service.impl.UserEmailServiceImpl;
+import util.MimeTypesUtil;
 
 public class Bot extends AbilityBot {
 
@@ -57,8 +58,8 @@ public class Bot extends AbilityBot {
                 "1. Add my email address `sharetokindlebot@gmail.com` to your [approved email list]" +
                 "(https://www.amazon.com/gp/help/customer/display.html?nodeId=201974240)\n" +
                 "2. Set your Kindle email address using /email command\n\n" +
-                "Supported formats: _doc_, _docx_, _pdf_, _txt_, _jpg_, _jpeg_, _png_, _bmp_," +
-                " _azw_, _mobi_, _rtf_, _prc_, _psz_";
+                "Supported formats: _doc_, _docx_, _pdf_, jpg_, _jpeg_, _png_, _bmp_," +
+                " _azw_, _mobi_, _rtf_";
         return Ability
                 .builder()
                 .name("start")
@@ -105,6 +106,9 @@ public class Bot extends AbilityBot {
         String message = userEmailService.getEmail(chatId).map(email -> {
             silent.send("\u2699 Processing file...", chatId);
             Document document = update.getMessage().getDocument();
+            if (!MimeTypesUtil.supportsMimeType(document.getMimeType())) {
+                return "Sorry, I can't send this format of file \uD83E\uDD7A";
+            }
             String fileName = document.getFileName();
             return fileService.convertTelegramDocumentToInputStream(getTelegramFilePath(document))
                     .map(fileStream -> {
