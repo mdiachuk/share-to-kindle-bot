@@ -54,11 +54,11 @@ public class Bot extends AbilityBot {
     }
 
     public Ability startCommand() {
-        String message = "Hi! To configure me, follow steps below:\n\n" +
+        String message = "Hi! To configure me, follow the steps below:\n\n" +
                 "1. Add my email address `sharetokindlebot@gmail.com` to your [approved email list]" +
                 "(https://www.amazon.com/gp/help/customer/display.html?nodeId=201974240)\n" +
                 "2. Set your Kindle email address using /email command\n\n" +
-                "Supported formats: _doc_, _docx_, _pdf_, jpg_, _jpeg_, _png_, _bmp_," +
+                "Supported formats: _doc_, _docx_, _pdf_, _jpg_, _jpeg_, _png_, _bmp_," +
                 " _azw_, _mobi_, _rtf_";
         return Ability
                 .builder()
@@ -71,7 +71,8 @@ public class Bot extends AbilityBot {
 
     public Ability emailCommand() {
         String message = "Reply to this message with email address to set or change it";
-        return Ability.builder()
+        return Ability
+                .builder()
                 .name("email")
                 .privacy(PUBLIC)
                 .locality(ALL)
